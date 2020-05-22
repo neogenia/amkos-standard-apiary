@@ -1,0 +1,204 @@
+FORMAT: 1A
+HOST: https://www.amkos.cz/api/v1
+
+# AMKOS API Standard
+
+Návrh komunikace
+
+![Schéma komunikace](https://files.mobilnirozhlas.cz/amkos/api.jpeg)
+
+
+## Categories Collection [/categories]
+
+### Category detail [GET /category/{id}]
++ Request
+    + Attributes
+        + id (number, required)
+
++ Response 200 (aplpiacation/json)    
+    + Attributes (Category)
+        
++ Response 404        
+
+### List of categories [GET /categories]
++ Veřejná prostranství, parky
+    + Poškozený chodník, cesta
+    + Poškození lavičky, zábradlí
+    + Poškozené pískoviště, hřiště, sportoviště
+    + Poškozená socha, památník
+    + Poškození zastávky MHD, autobusů, vlaků
+    + Nebezpečná budova
+    + Poškozené, nefunkční veřejné osvětlení
+    + Poškozená elektrická infrastruktura
+    + Poškozená kanalizace
+    + Závada na veřejné zeleni
++ Odpady, nepořádek
+    + Drobný nepořádek
+    + Černá skládka
+    + Odpadkový koš, kontejner
+    + Odstavený autovrak
++ Silnice, cyklostezky, chodníky
+    + Poškozený povrch vozovky
+    + Poškozená svodidla, mosty
+    + Překážka na silnici, u silnice
+    + Poškozená dopravní značka, zrcadlo
+    + Poškozený semafor
+    + Špatné dopravní značení na komunikaci
++ Dálnice a rychlostní komunikace
+    + Nebezpečné značení
+    + Poškozený úsek
+    + Hrozící nebezpečí
++ Voda a vodní toky
+    + Chemické znečištění
+    + Úhyn ryb
+    + Vodní skládka
+    + Poškození hráze
++ Příroda, lesy, zvířata
+    + Zvířata
+    + Erozní rýha
+    + Velká mýtina
+    + Požářiště
+    + Polom
+    + Kůrovec
+    + Nebezpečný strom
+    + Hrozící sesuv
+    + Ničení a poškozování přírody
++ Turismus
+    + Matoucí turistické značení
+    + Poškozené značení, vandalismus
++ Sousedské soužití
+    + Obtěžování kouřem
+    + Rušení veřejného pořádku
+    + Obtěžování zápachem
++ Ostatní hlášení
+    + Návrh na zlepšení
+    + Pochval to
+    + Jiné hlášení, problém
++ Ztráty a nálezy
+    + Nalezený předmět
+    + Ztracený předmět
+    + Odcizené auto nebo motorové vozidlo
+    + Odcizené kolo
+    + Odcizená jiná věc
++ Zvířata
+    + Nalezené zvíře
+    + Ztracené zvíře
+    + Týrané zvíře
+    + Nezajištěné zvíře
+    + Uhynulé zvíře
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + data (array[Category])
+
+## Issues Collection [/issues]
+
+### Issue detail [GET /issue/{id}]
++ Request
+    + Attributes
+        + id (number, required)
+
++ Response 200 (application/json)
+    + Attributes (Issue)
+
++ Response 404 (application/json)        
+
+### List of issues [GET]
++ Request (application/json)
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + data (array[Issue])
+
++ Response 401 (appliaction/json)        
+
+# Data Structures
+## Address (object)
++ street: Hybešova (string)
++ city: Brno (string)
++ region (Region)
+
+## Category (object)
++ id: 2 (number) - Category unique identifier
++ name: Veřejná prostranství, parky (string) - Category name
++ parent (nullable, number) - Parent category id
+
+## Coordinates (object)
++ latitude: 49.12345 (number)
++ longitude: 12.15163 (number)
+
+## DangerousEnum (enum)
++ false (boolean)
++ true (boolean)
+
+## EmergencyEnum (enum)
++ false (boolean)
++ true (boolean)
+
+## Issue (object)  
++ id: 5 (number) - Issue unique identifier
++ category: 1 (number) - Category unique identifier
++ createdAt: `2020-02-02 13:45:12` (string) - datetime string (for example "2020-02-02 13:45:12")
++ modifiedAt: `2020-02-02 13:45:12` (string) - datetime string (for example "2020-02-02 13:45:12")
++ text: Garbage in the park. (string) - Issue description
++ author (nullable, User) - Author of issue
++ garant (User) - Garant of issue
++ location (object) - Location of issue
+    + address (Address) - Address of issue
+    + coordinates (Coordinates)        
++ scope (ScopeEnum)    
++ state (IssueStateEnum) 
++ stateHistory (array[StateHistory]))
++ dangerous (DangerousEnum)
++ emergency (EmergencyEnum)
++ mode (ModeEnum)
++ platform (PlatformEnum)
++ lastUserNotification (LastUserNotification)
++ attachments: https://www.amkos.cz/issue/img/45sad78asd5asd878asd.jpg,https://www.amkos.cz/issue/img/sad78a9sd4a4s52348af.jpg  (array) - List of urls
+    
+## IssueStateEnum (enum)
++ accepted (string) - Accepted
++ notified (string) - Notified
++ inprogress (string) - In progress
++ open (string) - Open
++ resolved (string) - Resolved
++ canceled (string) - Storno
+
+## LastUserNotification (object)
++ date: `2020-02-02 13:55:02` (string) datetime string (for example "2020-02-02 13:45:12")
++ text: `The issue has been resolved.` (string) - Notification text
++ type (LastNotificationTypeEnum) - Notification type
+
+## LastNotificationTypeEnum(enum)
++ app (string) - Notification to mobile app
++ sms (string) - Notification by SMS
++ email (string) - Notification by email
+
+## ModeEnum (enum)
++ public (string) - Public
++ hidden (string) - Hidden
+
+## PlatformEnum (enum)
++ zmapujto (string)
++ zmenteto (string)
+
+## Region (object)
++ id: 1 (number) - Region unique identifier
++ name: Olomoucký (string) - Region name
+
+## ScopeEnum (enum)
++ small (string)
++ medium (string)
++ large (string)
+
+## StateHistory (object)
++ state (IssueStateEnum)
++ date: `2020-02-02 13:45:12` (string) - datetime string (for example "2020-02-02 13:45:12")
++ comment: Temporarily corrected (string) - State change message.
++ author (User)
+
+## User (object)
++ firstame: Jan (string) - Firstname
++ lastname: Novák (string) - Lastname
++ email: jan.novak@novak.cz (string, nullable) - Email
++ phone: +420777123456 (string) - Phone
