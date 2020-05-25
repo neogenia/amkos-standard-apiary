@@ -127,6 +127,11 @@ Návrh komunikace
 + latitude: 49.12345 (number)
 + longitude: 12.15163 (number)
 
+## Date (object)
++ date: `2020-02-02 13:45:12` (string)
++ timezone_type: 3 (number)
++ timezone: US/Pacific (string)
+
 ## DangerousEnum (enum)
 + false (boolean)
 + true (boolean)
@@ -138,8 +143,8 @@ Návrh komunikace
 ## Issue (object)  
 + id: 5 (number) - Issue unique identifier
 + category: 1 (number) - Category unique identifier
-+ createdAt: `2020-02-02 13:45:12` (string) - datetime string (for example "2020-02-02 13:45:12")
-+ modifiedAt: `2020-02-02 13:45:12` (string) - datetime string (for example "2020-02-02 13:45:12")
++ createdAt (Date)
++ modifiedAt (Date)
 + text: Garbage in the park. (string) - Issue description
 + author (nullable, User) - Author of issue
 + garant (User) - Garant of issue
@@ -165,7 +170,7 @@ Návrh komunikace
 + canceled (string) - Storno
 
 ## LastUserNotification (object)
-+ date: `2020-02-02 13:55:02` (string) datetime string (for example "2020-02-02 13:45:12")
++ date (Date)
 + text: `The issue has been resolved.` (string) - Notification text
 + type (LastNotificationTypeEnum) - Notification type
 
@@ -193,7 +198,7 @@ Návrh komunikace
 
 ## StateHistory (object)
 + state (IssueStateEnum)
-+ date: `2020-02-02 13:45:12` (string) - datetime string (for example "2020-02-02 13:45:12")
++ date (Date)
 + comment: Temporarily corrected (string) - State change message.
 + author (User)
 
