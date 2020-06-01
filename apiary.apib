@@ -15,10 +15,10 @@ Návrh komunikace
     + Attributes
         + id (number, required)
 
-+ Response 200 (aplpiacation/json)    
++ Response 200 (aplpiacation/json)
     + Attributes (Category)
-        
-+ Response 404        
+
++ Response 404
 
 ### List of categories [GET /categories]
 + Veřejná prostranství, parky
@@ -92,6 +92,56 @@ Návrh komunikace
         + data (array[Category])
 
 ## Issues Collection [/issues]
+
+### Issue create [POST /issue]
++ Request
+    + Attributes
+        + category: 1 (number) - Category unique identifier
+        + createdAt (Date)
+        + text: Garbage in the park. (string) - Issue description
+        + author (nullable, User) - Author of issue
+        + location (object) - Location of issue
+            + address (Address) - Address of issue
+            + coordinates (Coordinates)
+        + scope (ScopeEnum)
+        + state (IssueStateEnum)
+        + dangerous (DangerousEnum)
+        + emergency (EmergencyEnum)
+        + mode (ModeEnum)
+        + platform (PlatformEnum)
+        + attachments: https://www.amkos.cz/issue/img/45sad78asd5asd878asd.jpg,https://www.amkos.cz/issue/img/sad78a9sd4a4s52348af.jpg  (array) - List of urls
+
++ Response 200 (application/json)
+    + Attributes
+        + id: 5 (number) - Issue unique identifier
+
++ Response 400 (application/json)
+
+### Issue comment create [POST /issue/{id}/comment]
++ Request
+    + Attributes
+        + id: 5 (number) - Issue unique identifier
+        + createdAt (Date)
+        + text: Comment to existing issue. (string) - Text of comment
+        + author (nullable, User) - Author of comment
+        + platform (PlatformEnum)
+        + attachments: https://www.amkos.cz/issue/img/45sad78asd5asd878asd.jpg,https://www.amkos.cz/issue/img/sad78a9sd4a4s52348af.jpg  (array) - List of urls
+
++ Response 200 (application/json)
+
++ Response 404 (application/json)
+
++ Response 400 (application/json)
+
+### Issue update [PUT /issue/{id}]
++ Request
+    + Attributes
+        + state (IssueStateEnum)
+        + garant (User) - Garant of issue
+
++ Response 200 (application/json)
+
++ Response 404 (application/json)
 
 ### Issue detail [GET /issue/{id}]
 + Request
